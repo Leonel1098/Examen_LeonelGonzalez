@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Listado de Empleados</h2>
+
+<!-- Formulario de filtro -->
+<form method="get" action="{{ url_for('listar_Empleados') }}" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" name="Nombre" class="form-control" value="{{ filtro_nombre if filtro_nombre is not none else '' }}" placeholder="Nombre" value="{{ request.args.get('Nombre') }}">
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="Rol" class="form-control" value="{{ filtro_nombre if filtro_nombre is not none else '' }}" placeholder="Rol" value="{{ request.args.get('Direccion') }}">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </div>
+</form>
+
+<a href="{{ url_for('crear_Empleado') }}" class="btn btn-primary mb-3">Agregar Empleado</a>
+<a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mb-3">Regresar al Inicio</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if empleados %}
+            {% for empleado in empleados %}
+            <tr>
+                <td>{{ empleado.Empleado_ID }}</td>
+                <td>{{ empleado.Nombre }}</td>
+                <td>{{ empleado.Apellido }}</td>
+                <td>{{ empleado.Email }}</td>
+                <td>{{ empleado.Rol }}</td>
+                <td>
+                    <form method="post" action="{{ url_for('eliminar_Empleado', Empleado_ID=empleado.Empleado_ID) }}" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cliente?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                    </form>
+                    <a href="{{ url_for('actualizar_Empleado', Empleado_ID=empleado.Empleado_ID) }}" class="btn btn-secondary btn-sm">Actualizar</a>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No se encontraron empleados.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base_Empleado.html' %}
+{% block content %}
+<h2>Listado de Registros</h2>
+
+<!-- Formulario de filtro -->
+<form method="get" action="{{ url_for('listar_Registros') }}" class="mb-3"></form>
+
+<a href="{{ url_for('dashboard_empleado') }}" class="btn btn-secondary mb-3">Regresar al Inicio</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Empleado_ID</th>
+            <th>Fecha</th>
+            <th>Hora_Entrada</th>
+            <th>Hora_Salida</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if asistencias %}
+            {% for asistencia in asistencias %}
+            <tr>
+                <td>{{ asistencia.Asistencia_ID }}</td>
+                <td>{{ asistencia.Empleado_ID }}</td>
+                <td>{{ asistencia.Fecha }}</td>
+                <td>{{ asistencia.Hora_Entrada }}</td>
+                <td>{{ asistencia.Hora_Salida }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="7">No se encontraron registros.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="jumbotron text-center py-5">
+    <h2 class="display-4"></h2>
+    <p class="lead">Gestiona y administra inventario de Empleados.</p>
+    <hr class="my-4">
+
+    <div class="row mt-5">
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('listar_Empleados') }}" class="btn btn-outline-primary btn-lg btn-block">
+                <i class="fas fa-users"></i> Gestionar Empleados
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('reportes') }}" class="btn btn-outline-primary btn-lg btn-block">
+                <i class="fas fa-users"></i> Ver Reporte de Empleados
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg btn-block">
+                <i class="fa fa-user-circle"></i> Cerrar Sesion
+            </a>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Reporte de Asistencia</h2>
+
+<!-- Formulario de filtro -->
+<form method="post" action="{{ url_for('reportes') }}" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <input type="date" name="Fecha_Inicio" class="form-control" value="{{ fecha_inicio if fecha_inicio is not none else '' }}" placeholder="Fecha de Inicio" required>
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="Fecha_Fin" class="form-control" value="{{ fecha_fin if fecha_fin is not none else '' }}" placeholder="Fecha de Fin" required>
+        </div>
+        <div class="col-md-3">
+            <select name="Tipo_Reporte" class="form-control" required>
+                <option value="diario" {% if tipo_reporte == 'diario' %}selected{% endif %}>Diario</option>
+                <option value="semanal" {% if tipo_reporte == 'semanal' %}selected{% endif %}>Semanal</option>
+                <option value="mensual" {% if tipo_reporte == 'mensual' %}selected{% endif %}>Mensual</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">Generar Reporte</button>
+        </div>
+    </div>
+</form>
+
+<a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary mb-3">Regresar al Inicio</a>
+
+{% if reportes %}
+    <h3>Reporte desde {{ fecha_inicio }} hasta {{ fecha_fin }}</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID de Empleado</th>
+                <th>Fecha</th>
+                <th>Hora de Entrada</th>
+                <th>Hora de Salida</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for asistencia in reportes %}
+            <tr>
+                <td>{{ asistencia.Empleado_ID }}</td>
+                <td>{{ asistencia.Fecha.strftime('%Y-%m-%d') }}</td>
+                <td>{{ asistencia.Hora_Entrada.strftime('%H:%M:%S') if asistencia.Hora_Entrada else 'N/A' }}</td>
+                <td>{{ asistencia.Hora_Salida.strftime('%H:%M:%S') if asistencia.Hora_Salida else 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No se encontraron registros de asistencia para el rango de fechas seleccionado.</p>
+{% endif %}
+{% endblock %}
